@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第三次段考英文複習</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Noto+Serif+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5f0e8;
+    --paper-dark: #ede7d4;
+    --paper-lines: #d4c9a8;
+    --ink: #2c2416;
+    --ink-light: #6b5c3e;
+    --ink-faint: #a89470;
+    --red: #c0392b;
+    --blue: #2563a8;
+    --green: #2d6a4f;
+    --highlight: #f9e4a0;
+    --ring: #8b7355;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #c9b99a;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.02) 10px, rgba(0,0,0,0.02) 11px);
+    font-family: 'Noto Serif TC', serif;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  /* HOME */
+  #home {
+    max-width: 480px;
+    margin: 0 auto;
+    padding-top: 20px;
+  }
+  .notebook-cover {
+    background: #3d2b1f;
+    border-radius: 4px 12px 12px 4px;
+    padding: 40px 30px;
+    box-shadow: -4px 4px 0 #1a0f0a, 4px 4px 20px rgba(0,0,0,0.4);
+    position: relative;
+    border-left: 20px solid #2a1d14;
+  }
+  .notebook-cover::before {
+    content: '';
+    position: absolute;
+    left: -8px; top: 10%; bottom: 10%;
+    width: 4px;
+    background: repeating-linear-gradient(to bottom, #c9a96e 0, #c9a96e 8px, #3d2b1f 8px, #3d2b1f 14px);
+    border-radius: 2px;
+  }
+  .cover-title {
+    font-family: 'Caveat', cursive;
+    color: #f5e6c8;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .cover-sub {
+    font-family: 'Caveat', cursive;
+    color: #c9a96e;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+  .cover-label {
+    display: inline-block;
+    background: #f5e6c8;
+    color: #3d2b1f;
+    font-family: 'Caveat', cursive;
+    font-size: 0.85rem;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 6px;
+    transform: rotate(-1deg);
+  }
+  .mode-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .mode-btn {
+    background: var(--paper);
+    border: 2px solid var(--paper-lines);
+    border-radius: 8px;
+    padding: 16px 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    box-shadow: 2px 2px 0 var(--paper-lines);
+    font-family: 'Caveat', cursive;
+  }
+  .mode-btn:hover { transform: translateY(-2px); box-shadow: 2px 4px 0 var(--paper-lines); }
+  .mode-btn:active { transform: translateY(0); box-shadow: 1px 1px 0 var(--paper-lines); }
+  .mode-btn .mode-icon { font-size: 1.8rem; display: block; margin-bottom: 6px; }
+  .mode-btn .mode-name { font-size: 1rem; font-weight: 700; color: var(--ink); display: block; }
+  .mode-btn .mode-desc { font-size: 0.75rem; color: var(--ink-light); display: block; margin-top: 2px; }
+  .mode-btn.full { grid-column: 1 / -1; }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* NOTEBOOK PAGE */
+  .page-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .page {
+    background: var(--paper);
+    border-radius: 4px 8px 8px 4px;
+    box-shadow: -3px 3px 0 #8b7355, 3px 3px 15px rgba(0,0,0,0.25);
+    position: relative;
+    min-height: 80vh;
+    border-left: 40px solid #e8dfc0;
+    overflow: hidden;
+  }
+  .page::before {
+    content: '';
+    position: absolute;
+    left: -28px; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--red);
+    opacity: 0.5;
+  }
+  .page-rings {
+    position: absolute;
+    left: -34px;
+    top: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 20px 0;
+    pointer-events: none;
+  }
+  .ring {
+    width: 16px; height: 16px;
+    border: 2px solid var(--ring);
+    border-radius: 50%;
+    background: #c9b99a;
+  }
+  .page-lines {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(to bottom, transparent 0px, transparent 27px, var(--paper-lines) 27px, var(--paper-lines) 28px);
+    background-position: 0 50px;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .page-content {
+    position: relative;
+    z-index: 1;
+    padding: 16px 20px 20px;
+  }
+
+  /* HEADER BAR */
+  .page-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--paper-lines);
+    padding-bottom: 10px;
+  }
+  .back-btn {
+    background: none;
+    border: 1.5px solid var(--ink-faint);
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-family: 'Caveat', cursive;
+    font-size: 0.9rem;
+    color: var(--ink-light);
+  }
+  .page-title {
+    font-family: 'Caveat', cursive;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    flex: 1;
+  }
+  .progress-badge {
+    font-family: 'Caveat', cursive;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    background: var(--paper-dark);
+    border-radius: 20px;
+    padding: 2px 10px;
+  }
+
+  /* FLASHCARD */
+  .card-area {
+    perspective: 1000px;
+    margin: 10px 0 16px;
+  }
+  .card-inner {
+    position: relative;
+    width: 100%;
+    min-height: 200px;
+    transform-style: preserve-3d;
+    transition: transform 0.4s ease;
+    cursor: pointer;
+  }
+  .card-inner.flipped { transform: rotateY(180deg); }
+  .card-face {
+    position: absolute;
+    width: 100%;
+    min-height: 200px;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 24px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .card-front {
+    background: linear-gradient(135deg, #fff8ec 0%, #fef3d7 100%);
+    border: 2px solid var(--paper-lines);
+  }
+  .card-back {
+    background: linear-gradient(135deg, #e8f4e8 0%, #d4ead4 100%);
+    border: 2px solid #9dc49d;
+    transform: rotateY(180deg);
+  }
+  .card-face.phrase-front {
+    background: linear-gradient(135deg, #fff0e0 0%, #ffe4c4 100%);
+    border: 2px solid #e0b880;
+  }
+  .card-face.phrase-back {
+    background: linear-gradient(135deg, #e8f0ff 0%, #d4e4ff 100%);
+    border: 2px solid #90b0e0;
+    transform: rotateY(180deg);
+  }
+  .card-label {
+    font-family: 'Caveat', cursive;
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .card-word {
+    font-family: 'Caveat', cursive;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .card-zh {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-top: 8px;
+  }
+  .card-hint {
+    font-family: 'Caveat', cursive;
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+    margin-top: 20px;
+  }
+  .card-lesson {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-family: 'Caveat', cursive;
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+  }
+
+  .card-nav {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  .nav-btn {
+    background: var(--paper-dark);
+    border: 1.5px solid var(--paper-lines);
+    border-radius: 8px;
+    padding: 8px 24px;
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.1s;
+    box-shadow: 1px 1px 0 var(--paper-lines);
+  }
+  .nav-btn:hover { background: var(--highlight); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .nav-btn.primary {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .nav-btn.primary:hover { background: #4a3824; }
+  .shuffle-btn {
+    background: none;
+    border: none;
+    font-family: 'Caveat', cursive;
+    font-size: 0.85rem;
+    color: var(--blue);
+    cursor: pointer;
+    text-decoration: underline;
+    margin: 0 auto;
+    display: block;
+    margin-top: 8px;
+  }
+
+  /* SPELLING */
+  .spell-question {
+    background: var(--highlight);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    margin: 10px 0 14px;
+    border: 1.5px dashed var(--paper-lines);
+  }
+  .spell-zh {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .spell-lesson-tag {
+    font-family: 'Caveat', cursive;
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+  }
+  .spell-input-wrap {
+    position: relative;
+    margin-bottom: 12px;
+  }
+  .spell-input {
+    width: 100%;
+    background: white;
+    border: 2px solid var(--paper-lines);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'Caveat', cursive;
+    font-size: 1.3rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .spell-input:focus { border-color: var(--blue); }
+  .spell-input.correct { border-color: var(--green); background: #f0fff0; }
+  .spell-input.wrong { border-color: var(--red); background: #fff0f0; }
+  .spell-feedback {
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    min-height: 24px;
+  }
+  .spell-feedback.correct { color: var(--green); }
+  .spell-feedback.wrong { color: var(--red); }
+  .spell-answer-reveal {
+    font-family: 'Caveat', cursive;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .spell-answer-reveal strong { color: var(--green); font-size: 1rem; }
+
+  /* WRONG LIST */
+  .wrong-list {
+    background: #fff5f5;
+    border: 1.5px solid #e0b0b0;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 12px;
+  }
+  .wrong-list h3 {
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+  .wrong-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid #f0d0d0;
+    font-size: 0.85rem;
+    font-family: 'Caveat', cursive;
+    color: var(--ink);
+  }
+  .wrong-item:last-child { border-bottom: none; }
+  .wrong-item span:last-child { color: var(--ink-faint); }
+
+  /* SUMMARY */
+  .summary-box {
+    background: var(--paper-dark);
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+    margin: 10px 0;
+  }
+  .summary-score {
+    font-family: 'Caveat', cursive;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .summary-label { font-family: 'Caveat', cursive; color: var(--ink-light); }
+
+  /* PROGRESS BAR */
+  .prog-bar-wrap {
+    height: 6px;
+    background: var(--paper-lines);
+    border-radius: 3px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .prog-bar-fill {
+    height: 100%;
+    background: var(--blue);
+    border-radius: 3px;
+    transition: width 0.3s;
+  }
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+  <div class="notebook-cover">
+    <div class="cover-label">第三次段考</div>
+    <div class="cover-title">英文複習本</div>
+    <div class="cover-sub">L7–L9 Notes ✦ L1–9 Vocab</div>
+  </div>
+  <div class="mode-grid" style="margin-top:16px;">
+    <button class="mode-btn" onclick="startFlashcard('vocab')">
+      <span class="mode-icon">🃏</span>
+      <span class="mode-name">單字卡</span>
+      <span class="mode-desc">L1-9 全部單字</span>
+    </button>
+    <button class="mode-btn" onclick="startSpelling()">
+      <span class="mode-icon">✍️</span>
+      <span class="mode-name">中文拼英文</span>
+      <span class="mode-desc">L1-9 全部單字</span>
+    </button>
+    <button class="mode-btn" onclick="startFlashcard('phrase')">
+      <span class="mode-icon">💬</span>
+      <span class="mode-name">片語卡</span>
+      <span class="mode-desc">L7-9 筆記片語</span>
+    </button>
+    <button class="mode-btn" onclick="startFlashcard('supplement')">
+      <span class="mode-icon">📌</span>
+      <span class="mode-name">補充卡</span>
+      <span class="mode-desc">L7-9 家族字彙</span>
+    </button>
+  </div>
+</div>
+
+<!-- FLASHCARD SCREEN -->
+<div id="flashcard-screen" class="screen">
+  <div class="page-wrap">
+    <div class="page">
+      <div class="page-lines"></div>
+      <div class="page-rings">
+        <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+        <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+        <div class="ring"></div><div class="ring"></div>
+      </div>
+      <div class="page-content">
+        <div class="page-header">
+          <button class="back-btn" onclick="goHome()">← 返回</button>
+          <div class="page-title" id="fc-title">單字卡</div>
+          <div class="progress-badge" id="fc-progress">1 / 1</div>
+        </div>
+        <div class="prog-bar-wrap"><div class="prog-bar-fill" id="fc-bar" style="width:0%"></div></div>
+        <div class="card-area">
+          <div class="card-inner" id="card-inner" onclick="flipCard()">
+            <div class="card-face card-front" id="card-front">
+              <div class="card-label">點擊翻面</div>
+              <div class="card-word" id="card-word-en">—</div>
+              <div class="card-lesson" id="card-lesson-tag"></div>
+              <div class="card-hint">tap to flip</div>
+            </div>
+            <div class="card-face card-back" id="card-back">
+              <div class="card-label">中文意思</div>
+              <div class="card-zh" id="card-word-zh">—</div>
+              <div class="card-word" id="card-back-en" style="font-size:1rem;color:var(--ink-faint);margin-top:8px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-nav">
+          <button class="nav-btn" id="fc-prev" onclick="fcNav(-1)">← 上一張</button>
+          <button class="nav-btn" id="fc-next" onclick="fcNav(1)">下一張 →</button>
+        </div>
+        <button class="shuffle-btn" onclick="fcShuffle()">🔀 重新洗牌</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SPELLING SCREEN -->
+<div id="spelling-screen" class="screen">
+  <div class="page-wrap">
+    <div class="page">
+      <div class="page-lines"></div>
+      <div class="page-rings">
+        <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+        <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+        <div class="ring"></div><div class="ring"></div>
+      </div>
+      <div class="page-content">
+        <div class="page-header">
+          <button class="back-btn" onclick="goHome()">← 返回</button>
+          <div class="page-title">中文拼英文</div>
+          <div class="progress-badge" id="sp-progress">1 / 1</div>
+        </div>
+        <div class="prog-bar-wrap"><div class="prog-bar-fill" id="sp-bar" style="width:0%"></div></div>
+        <div class="spell-question">
+          <div class="spell-zh" id="sp-zh">—</div>
+          <div class="spell-lesson-tag" id="sp-tag"></div>
+        </div>
+        <div class="spell-input-wrap">
+          <input class="spell-input" id="sp-input" type="text" placeholder="拼出英文…" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" onkeydown="spKeydown(event)">
+        </div>
+        <div class="spell-feedback" id="sp-feedback"></div>
+        <div class="spell-answer-reveal" id="sp-reveal"></div>
+        <div class="card-nav">
+          <button class="nav-btn" id="sp-skip" onclick="spSkip()">跳過</button>
+          <button class="nav-btn primary" id="sp-submit" onclick="spSubmit()">確認</button>
+          <button class="nav-btn" id="sp-next" onclick="spNext()" style="display:none">下一題 →</button>
+        </div>
+        <div id="sp-wrong-wrap"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const VOCAB = [["champion", "冠軍；得勝者", 1], ["championship", "錦標賽；冠軍地位", 1], ["dedication", "奉獻；獻身精神", 1], ["devotion", "奉獻；忠誠", 1], ["dedicate", "奉獻；獻身", 1], ["medal", "獎牌；勳章", 1], ["medalist", "獎牌得主", 1], ["injury", "受傷；損傷", 1], ["injure", "使受傷", 1], ["success", "成功", 1], ["succeed", "成功；繼承", 1], ["successful", "成功的", 1], ["pain", "痛苦；疼痛", 1], ["painfully", "痛苦地", 1], ["painful", "痛苦的；疼痛的", 1], ["immediately", "立刻；馬上", 1], ["instantly", "立刻；瞬間", 1], ["immediate", "立即的；直接的", 1], ["collapse", "崩潰；倒塌", 1], ["medical", "醫療的；醫學的", 1], ["staff", "員工；工作人員", 1], ["courage", "勇氣", 1], ["courageous", "勇敢的", 1], ["strength", "力量；體力", 1], ["strengthen", "加強；鞏固", 1], ["support", "支持；支撐", 1], ["supportive", "支持的；給予幫助的", 1], ["struggle", "掙扎；奮鬥", 1], ["struggling", "掙扎中的；奮鬥中的", 1], ["pride", "驕傲；自尊", 1], ["proud", "驕傲的；自豪的", 1], ["emotional", "情緒的；感情豐富的", 1], ["emotion", "情緒；感情", 1], ["admiration", "欽佩；讚賞", 1], ["admire", "欽佩；讚賞", 1], ["respect", "尊重；敬意", 1], ["warn", "警告；提醒", 2], ["alert", "警覺的；警報", 2], ["warning", "警告；警示", 2], ["announcement", "公告；宣布", 2], ["announce", "宣布；公告", 2], ["research", "研究；調查", 2], ["flavor", "風味；口味", 2], ["flavoring", "調味料；香料", 2], ["pressure", "壓力；壓迫", 2], ["normally", "通常；正常地", 2], ["typically", "通常；典型地", 2], ["normal", "正常的；普通的", 2], ["distinguish", "區分；辨別", 2], ["distinguished", "傑出的；著名的", 2], ["accurately", "精確地；準確地", 2], ["precisely", "精確地；恰好", 2], ["accurate", "精確的；準確的", 2], ["function", "功能；運作", 2], ["operate", "運作；操作", 2], ["blame", "責怪；歸咎", 2], ["affect", "影響；感動", 2], ["affection", "情感；喜愛", 2], ["passenger", "乘客", 2], ["distract", "分散注意力", 2], ["attract", "吸引", 2], ["distraction", "分心；干擾", 2], ["indicate", "指示；表明", 2], ["indicator", "指示器；指標", 2], ["indication", "跡象；指示", 2], ["conditions", "條件；狀況", 2], ["condition", "狀況；條件", 2], ["solution", "解決方案；溶液", 2], ["solve", "解決；解答", 2], ["ingredient", "成分；材料", 2], ["recipe", "食譜；秘訣", 2], ["comparison", "比較；對照", 2], ["compare", "比較；對比", 2], ["remain", "保持；留下", 2], ["provide", "提供；供應", 2], ["pleasant", "令人愉快的；和善的", 2], ["grace", "優雅；恩典", 3], ["graceful", "優雅的；得體的", 3], ["desperately", "絕望地；拼命地", 3], ["desperate", "絕望的；拼命的", 3], ["reluctantly", "不情願地；勉強地", 3], ["reluctance", "不情願；勉強", 3], ["reluctant", "不情願的；勉強的", 3], ["describe", "描述；描寫", 3], ["description", "描述；描寫", 3], ["descriptive", "描述的；敘述的", 3], ["shiver", "顫抖；發抖", 3], ["shivery", "顫抖的；發冷的", 3], ["faint", "昏倒；微弱的", 3], ["scientific", "科學的", 3], ["scientist", "科學家", 3], ["frustration", "挫折；沮喪", 3], ["frustrate", "使沮喪；阻撓", 3], ["frustrated", "沮喪的；受挫的", 3], ["stubborn", "固執的；頑強的", 3], ["rage", "憤怒；狂怒", 3], ["concentration", "專注；集中", 3], ["concentrate", "集中；專注", 3], ["concentrated", "集中的；濃縮的", 3], ["explain", "解釋；說明", 3], ["explanation", "解釋；說明", 3], ["sincerity", "真誠；誠意", 3], ["sincere", "真誠的；誠懇的", 3], ["sincerely", "真誠地；誠懇地", 3], ["confess", "承認；坦白", 3], ["confession", "承認；懺悔", 3], ["restore", "恢復；修復", 3], ["fade", "褪色；消逝", 3], ["hardly", "幾乎不；勉強", 3], ["trace", "追蹤；痕跡", 3], ["depart", "離開；出發", 3], ["departure", "離開；出發", 3], ["regret", "後悔；遺憾", 3], ["female", "女性；雌性的", 4], ["male", "男性；雄性的", 4], ["region", "地區；區域", 4], ["regional", "地區的；區域的", 4], ["forbid", "禁止；不許", 4], ["continue", "繼續；持續", 4], ["continuous", "連續的；持續的", 4], ["education", "教育", 4], ["educational", "教育的；有教育意義的", 4], ["educate", "教育；培養", 4], ["principal", "校長；主要的", 4], ["equal", "平等的；相等的", 4], ["equality", "平等；均等", 4], ["control", "控制；管制", 4], ["uncontrollable", "無法控制的", 4], ["annoy", "使煩惱；惹惱", 4], ["annoyance", "煩惱；討厭的事", 4], ["threaten", "威脅；恐嚇", 4], ["threat", "威脅；恐嚇", 4], ["surgery", "手術；外科", 4], ["recover", "恢復；康復", 4], ["recovery", "恢復；康復", 4], ["sign", "簽署；跡象", 4], ["persuade", "說服；勸說", 4], ["convince", "說服；使確信", 4], ["persuasion", "說服；勸說", 4], ["persuasive", "有說服力的", 4], ["adopt", "採用；收養", 4], ["policy", "政策；方針", 4], ["ensure", "確保；保證", 4], ["guarantee", "保證；擔保", 4], ["establish", "建立；設立", 4], ["establishment", "建立；機構", 4], ["honor", "榮譽；尊重", 4], ["honorable", "榮譽的；可敬的", 4], ["weapon", "武器", 4], ["arms", "武器；手臂", 4], ["dare", "敢於；挑戰", 5], ["entertain", "娛樂；款待", 5], ["entertainment", "娛樂；表演", 5], ["imaginative", "富有想像力的；有創意的", 5], ["creative", "有創意的；創造性的", 5], ["imagine", "想像；設想", 5], ["imagination", "想像力；想像", 5], ["imaginary", "想像的；虛構的", 5], ["consistently", "一貫地；始終如一地", 5], ["constantly", "不斷地；持續地", 5], ["consistent", "一貫的；前後一致的", 5], ["convey", "傳達；運送", 5], ["parade", "遊行；炫耀", 5], ["request", "要求；請求", 5], ["extreme", "極端的；極度的", 5], ["achieve", "達成；實現", 5], ["accomplish", "完成；實現", 5], ["achievement", "成就；成績", 5], ["passion", "熱情；激情", 5], ["passionate", "充滿熱情的", 5], ["hardship", "艱辛；困苦", 5], ["difficulty", "困難；困境", 5], ["poverty", "貧窮；貧困", 5], ["rescue", "拯救；營救", 5], ["save", "拯救；節省", 5], ["career", "職業；生涯", 5], ["weave", "編織；穿梭", 5], ["deliver", "遞送；傳遞", 5], ["delivery", "遞送；分娩", 5], ["disadvantage", "劣勢；不利條件", 5], ["overcome", "克服；戰勝", 5], ["beat", "打敗；擊敗", 5], ["attitude", "態度；看法", 5], ["challenge", "挑戰", 5], ["challenging", "具挑戰性的", 5], ["obstacle", "障礙；阻礙", 5], ["barrier", "障礙；壁壘", 5], ["fulfill", "實現；履行", 5], ["fulfilling", "令人滿足的", 5], ["awful", "可怕的；糟糕的", 6], ["awesome", "令人驚嘆的；極好的", 6], ["stare", "凝視；盯著看", 6], ["whisper", "低聲說；耳語", 6], ["rude", "粗魯的；無禮的", 6], ["impolite", "無禮的；不禮貌的", 6], ["tease", "取笑；戲弄", 6], ["purposely", "故意地；有意地", 6], ["intentionally", "故意地；有意地", 6], ["purpose", "目的；用途", 6], ["scary", "嚇人的；可怕的", 6], ["frightening", "令人恐懼的", 6], ["scare", "使害怕；驚嚇", 6], ["overhear", "無意中聽到；偷聽", 6], ["eavesdrop", "偷聽；竊聽", 6], ["incident", "事件；事故", 6], ["cruel", "殘忍的；冷酷的", 6], ["cruelty", "殘忍；冷酷", 6], ["pretend", "假裝；偽裝", 6], ["fake", "假的；偽造的", 6], ["genuinely", "真誠地；真實地", 6], ["genuine", "真誠的；真實的", 6], ["apologize", "道歉；認錯", 6], ["apology", "道歉；歉意", 6], ["apologetic", "道歉的；抱歉的", 6], ["gradually", "逐漸地；慢慢地", 6], ["abruptly", "突然地；唐突地", 6], ["gradual", "逐漸的；漸進的", 6], ["approach", "接近；方法", 6], ["absolutely", "絕對地；完全地", 6], ["absolute", "絕對的；完全的", 6], ["defend", "防禦；辯護", 6], ["defense", "防禦；辯護", 6], ["bully", "霸凌；欺負", 6], ["ceremony", "典禮；儀式", 6], ["seek", "尋求；尋找", 7], ["audience", "觀眾；聽眾", 7], ["audience of", "…的觀眾／聽眾", 7], ["captive audience", "被迫收看的觀眾", 7], ["series", "系列；連續", 7], ["series of sth", "一系列…", 7], ["technology", "技術；科技", 7], ["technological", "技術的；科技的", 7], ["worth", "值得；價值", 7], ["worth a try", "值得一試", 7], ["worth one's while", "值得某人花時間", 7], ["worthy of", "值得…的；配得上…的", 7], ["foundation", "基金會；基礎", 7], ["found", "創立；建立", 7], ["conference", "會議；研討會", 7], ["increasingly", "越來越；日益", 7], ["decreasingly", "越來越少地", 7], ["increase", "增加；提高", 7], ["organizer", "組織者；籌辦人", 7], ["organize", "組織；安排", 7], ["organization", "組織；機構", 7], ["broad", "廣泛的；寬闊的", 7], ["broaden", "拓寬；擴大", 7], ["range", "範圍；系列", 7], ["field", "領域；田野", 7], ["philosophy", "哲學；人生觀", 7], ["launch", "發起；推出", 7], ["initiate", "開始；發起", 7], ["collection", "收藏；收集", 7], ["collect", "收集；採集", 7], ["numerous", "眾多的；許多的", 7], ["abundant", "豐富的；大量的", 7], ["celebrity", "名人；明星", 7], ["celebrity endorsement", "名人代言", 7], ["fascination", "著迷；魅力", 7], ["obsession", "著迷；執念", 7], ["fascinate", "使著迷；使迷惑", 7], ["fiction", "小說；虛構", 7], ["fictional", "虛構的；小說的", 7], ["discuss", "討論；商議", 7], ["deliberate", "故意的；深思熟慮", 7], ["discussion", "討論；商議", 7], ["method", "方法；方式", 7], ["exchange", "交換；兌換", 8], ["exchange of sth", "…的交換", 8], ["in exchange for", "作為…的交換", 8], ["exchange A for B", "以A換B", 8], ["expect", "期待；預期", 8], ["expectation", "期待；期望", 8], ["have high expectations of", "對…期望很高", 8], ["in expectation of", "期待著…", 8], ["shelter", "庇護所；遮蔽物", 8], ["shelter A from B", "使A免受B傷害", 8], ["take shelter from", "躲避…", 8], ["fierce", "激烈的；凶猛的", 8], ["occupy", "佔據；使忙碌", 8], ["occupation", "職業；佔領", 8], ["occupied", "被佔用的；忙碌的", 8], ["vehicle", "交通工具；媒介", 8], ["recreational vehicle", "休旅車；房車", 8], ["temporary", "暫時的；臨時的", 8], ["permanent", "永久的；永恆的", 8], ["assistant", "助手；助理", 8], ["assist", "幫助；協助", 8], ["assistance", "幫助；援助", 8], ["come to one's assistance", "前來協助某人", 8], ["curious", "好奇的；奇特的", 8], ["curiosity", "好奇心", 8], ["out of curiosity", "出於好奇", 8], ["originate", "起源；發源", 8], ["origin", "起源；來源", 8], ["original", "原始的；獨創的", 8], ["event", "事件；活動", 8], ["in the event of", "萬一…；如果發生…", 8], ["elder", "年長者；長者", 8], ["elderly", "年老的；老人的", 8], ["neighborhood", "鄰近地區；街坊", 8], ["neighborhood watch", "社區守望相助", 8], ["cooperate", "合作；配合", 8], ["collaborate", "合作；協作", 8], ["cooperation", "合作；協力", 8], ["in cooperation with", "與…合作", 8], ["arrange", "安排；整理", 8], ["arrangement", "安排；佈置", 8], ["relax", "放鬆；休息", 8], ["relaxation", "放鬆；休閒", 8], ["container", "容器；貨櫃", 8], ["contain", "包含；容納", 8], ["stroll", "漫步；散步", 8], ["aspect", "方面；層面", 8], ["spirit", "精神；靈魂", 8], ["spiritual", "精神的；心靈的", 8], ["general", "一般的；全面的", 9], ["generally", "通常；一般地", 9], ["in general", "一般而言；通常", 9], ["derive", "起源；衍生", 9], ["be derived from", "源自…；衍生自…", 9], ["originate", "起源；發源", 9], ["derive A from B", "從B獲得A", 9], ["feature", "特色；特徵", 9], ["gossip", "八卦；流言", 9], ["rumor", "謠言；流言", 9], ["gossip about", "談論…的閒話", 9], ["reveal", "揭露；透露", 9], ["reveal sth to sb", "向某人揭露某事", 9], ["release", "發行；釋放", 9], ["issue", "發行；議題", 9], ["release A from B", "使A從B中釋放", 9], ["chase", "追逐；追趕", 9], ["chase after", "追趕；追求", 9], ["chase rainbows", "追求不切實際的夢想", 9], ["brand", "品牌；商標", 9], ["brand loyalty", "品牌忠誠度", 9], ["image", "形象；圖像", 9], ["public image", "公眾形象", 9], ["be the spitting image of sb", "和某人長得一模一樣", 9], ["edit", "編輯；修改", 9], ["edition", "版本；版次", 9], ["modify", "修改；調整", 9], ["modification", "修改；調整", 9], ["make a modification to", "對…做出修改", 9], ["digitally", "數位地；以數位方式", 9], ["digital", "數位的；數字的", 9], ["combine A with B", "將A與B結合", 9], ["combined with", "加上…；與…結合", 9], ["combination", "組合；結合", 9], ["standard", "標準；水準", 9], ["standard operating procedure", "標準作業程序", 9], ["set a standard for", "為…設立標準", 9], ["up to standard", "達到標準", 9], ["widespread", "廣泛的；普遍的", 9], ["extensive", "廣泛的；大量的", 9], ["usage", "用法；使用", 9], ["come into a common usage", "成為普遍用法", 9], ["constantly", "不斷地；持續地", 9], ["continuously", "連續地；不斷地", 9], ["constant", "持續的；不變的", 9], ["alternative", "替代的；另類的", 9], ["alternative medicines", "替代醫療", 9], ["alternative ways", "替代方式", 9], ["have no alternative but to VR", "別無選擇只能…", 9], ["existing", "現有的；現存的", 9], ["current", "目前的；當前的", 9], ["exist", "存在；生存", 9], ["existence", "存在；生存", 9], ["come into existence", "開始存在；產生", 9]];
+const PHRASES = [["way of", "…的方式"], ["some ... others ... still others", "有些…其他…還有些…"], ["known as", "被稱為；以…著稱"], ["stand for", "代表；象徵"], ["the public", "大眾；公眾"], ["for free", "免費"], ["at present", "目前；現在"], ["week by week", "一週一週地；逐週"], ["invite sb. to VR", "邀請某人做…"], ["over the years", "多年來；這些年"], ["one ... another ... still another", "一個…另一個…還有一個…"], ["lead to", "導致；通往"], ["speak of", "談到；提及"], ["get to VR", "有機會做…"], ["not ... unless", "除非…否則不…"], ["there is a good chance", "有很大的可能性"], ["broaden one's horizon", "開拓某人的視野"], ["give sth a try", "嘗試某事"], ["take part in", "參與；參加"], ["open one's eyes to sth", "讓某人意識到某事"], ["difference between A and B", "A與B之間的差異"], ["upon Ving", "一…就…"], ["realize that", "意識到；了解到"], ["be different from", "與…不同"], ["take place", "發生；舉行"], ["be curious about", "對…感到好奇"], ["come about", "發生；產生"], ["known for", "因（特色）而出名"], ["know to", "為（特定人群）所熟知"], ["in the old days", "在從前；昔日"], ["such as", "例如；像是"], ["help out", "幫忙；協助"], ["do the cooking", "做飯；烹飪"], ["a sense of togetherness", "團結感；凝聚力"], ["toward the end of N", "接近…末尾"], ["provide for", "供養；提供"], ["pack up", "收拾；打包"], ["hand out", "分發；散發"], ["in modern times", "在現代"], ["the chance to", "做…的機會"], ["share with", "與…分享"], ["be used to", "被用來做…"], ["start out as", "起初作為…"], ["take on", "呈現；承擔"], ["later on", "後來；之後"], ["refer to", "指的是；稱為"], ["chase ... around", "追著…跑"], ["on the other hand", "另一方面"], ["in this case", "在這種情況下"], ["around the world", "世界各地"], ["over time", "隨著時間"], ["for example", "例如"], ["no matter wh-", "無論…"], ["in the beginning", "起初；一開始"], ["play an important role in N/Ving", "在…中扮演重要角色"], ["think up", "想出；發明"], ["too ... to", "太…而無法…"], ["boss around", "對…頤指氣使"], ["heard of", "聽說過…"], ["column", "專欄；柱子"], ["plural", "複數"], ["over a period of time", "在一段時間內"]];
+
+// Supplement = L7-9 vocab with non-plain entries (phrases/collocations as entries)
+const SUPPLEMENT = VOCAB.filter(v => v[2] >= 7 && v[0].includes(' '));
+const VOCAB_MAIN = VOCAB; // all vocab for flashcard
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ---- NAV ----
+function goHome() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('home').classList.add('active');
+}
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ---- FLASHCARD ----
+let fcDeck = [];
+let fcIdx = 0;
+let fcMode = 'vocab'; // vocab | phrase | supplement
+
+function startFlashcard(mode) {
+  fcMode = mode;
+  if (mode === 'vocab') {
+    fcDeck = shuffle(VOCAB_MAIN);
+    document.getElementById('fc-title').textContent = '單字卡 (L1-9)';
+  } else if (mode === 'phrase') {
+    fcDeck = shuffle(PHRASES.map(p => [p[0], p[1], '7-9']));
+    document.getElementById('fc-title').textContent = '片語卡 (L7-9)';
+  } else {
+    fcDeck = shuffle(SUPPLEMENT);
+    document.getElementById('fc-title').textContent = '補充卡 (L7-9)';
+  }
+  fcIdx = 0;
+  renderCard();
+  showScreen('flashcard-screen');
+}
+
+function renderCard() {
+  const card = fcDeck[fcIdx];
+  const inner = document.getElementById('card-inner');
+  inner.classList.remove('flipped');
+  document.getElementById('card-word-en').textContent = card[0];
+  document.getElementById('card-word-zh').textContent = card[1];
+  document.getElementById('card-back-en').textContent = card[0];
+  const lessonTag = card[2] ? (typeof card[2] === 'number' ? 'L' + card[2] : card[2]) : '';
+  document.getElementById('card-lesson-tag').textContent = lessonTag;
+
+  // phrase vs vocab styling
+  const front = document.getElementById('card-front');
+  const back = document.getElementById('card-back');
+  if (fcMode === 'phrase') {
+    front.classList.add('phrase-front'); front.classList.remove('card-front');
+    back.classList.add('phrase-back'); back.classList.remove('card-back');
+  } else {
+    front.classList.add('card-front'); front.classList.remove('phrase-front');
+    back.classList.add('card-back'); back.classList.remove('phrase-back');
+  }
+
+  const total = fcDeck.length;
+  document.getElementById('fc-progress').textContent = (fcIdx+1) + ' / ' + total;
+  document.getElementById('fc-bar').style.width = ((fcIdx+1)/total*100) + '%';
+  document.getElementById('fc-prev').disabled = fcIdx === 0;
+  document.getElementById('fc-next').disabled = fcIdx === total - 1;
+}
+
+function flipCard() {
+  document.getElementById('card-inner').classList.toggle('flipped');
+}
+function fcNav(dir) {
+  fcIdx = Math.max(0, Math.min(fcDeck.length-1, fcIdx + dir));
+  renderCard();
+}
+function fcShuffle() {
+  if (fcMode === 'vocab') fcDeck = shuffle(VOCAB_MAIN);
+  else if (fcMode === 'phrase') fcDeck = shuffle(PHRASES.map(p => [p[0], p[1], '7-9']));
+  else fcDeck = shuffle(SUPPLEMENT);
+  fcIdx = 0;
+  renderCard();
+}
+
+// ---- SPELLING ----
+let spDeck = [];
+let spIdx = 0;
+let spAnswered = false;
+let spWrong = [];
+
+function startSpelling() {
+  spDeck = shuffle(VOCAB_MAIN);
+  spIdx = 0;
+  spWrong = [];
+  spAnswered = false;
+  renderSpell();
+  showScreen('spelling-screen');
+}
+
+function renderSpell() {
+  if (spIdx >= spDeck.length) {
+    showSpellSummary(); return;
+  }
+  const card = spDeck[spIdx];
+  document.getElementById('sp-zh').textContent = card[1];
+  document.getElementById('sp-tag').textContent = 'L' + card[2];
+  document.getElementById('sp-input').value = '';
+  document.getElementById('sp-input').className = 'spell-input';
+  document.getElementById('sp-feedback').textContent = '';
+  document.getElementById('sp-feedback').className = 'spell-feedback';
+  document.getElementById('sp-reveal').innerHTML = '';
+  document.getElementById('sp-submit').style.display = '';
+  document.getElementById('sp-skip').style.display = '';
+  document.getElementById('sp-next').style.display = 'none';
+  document.getElementById('sp-wrong-wrap').innerHTML = '';
+  spAnswered = false;
+  const total = spDeck.length;
+  document.getElementById('sp-progress').textContent = (spIdx+1) + ' / ' + total;
+  document.getElementById('sp-bar').style.width = ((spIdx+1)/total*100) + '%';
+  setTimeout(() => document.getElementById('sp-input').focus(), 100);
+}
+
+function normalize(s) {
+  return s.trim().toLowerCase().replace(/[''`]/g, "'").replace(/\s+/g, ' ');
+}
+
+function spSubmit() {
+  if (spAnswered) return;
+  const card = spDeck[spIdx];
+  const ans = normalize(document.getElementById('sp-input').value);
+  const correct = normalize(card[0]);
+  const input = document.getElementById('sp-input');
+  const fb = document.getElementById('sp-feedback');
+  const rev = document.getElementById('sp-reveal');
+  spAnswered = true;
+  if (ans === correct) {
+    input.classList.add('correct');
+    fb.textContent = '✓ 正確！';
+    fb.className = 'spell-feedback correct';
+  } else {
+    input.classList.add('wrong');
+    fb.textContent = '✗ 錯誤';
+    fb.className = 'spell-feedback wrong';
+    rev.innerHTML = '正確答案：<strong>' + card[0] + '</strong>';
+    spWrong.push(card);
+  }
+  document.getElementById('sp-submit').style.display = 'none';
+  document.getElementById('sp-skip').style.display = 'none';
+  document.getElementById('sp-next').style.display = '';
+}
+
+function spSkip() {
+  const card = spDeck[spIdx];
+  spWrong.push(card);
+  const rev = document.getElementById('sp-reveal');
+  rev.innerHTML = '答案：<strong>' + card[0] + '</strong>';
+  spAnswered = true;
+  document.getElementById('sp-submit').style.display = 'none';
+  document.getElementById('sp-skip').style.display = 'none';
+  document.getElementById('sp-next').style.display = '';
+}
+
+function spNext() {
+  spIdx++;
+  if (spIdx >= spDeck.length) showSpellSummary();
+  else renderSpell();
+}
+
+function spKeydown(e) {
+  if (e.key === 'Enter') {
+    if (!spAnswered) spSubmit();
+    else spNext();
+  }
+}
+
+function showSpellSummary() {
+  const total = spDeck.length;
+  const wrong = spWrong.length;
+  const correct = total - wrong;
+  let html = `<div class="summary-box">
+    <div class="summary-score">${correct} / ${total}</div>
+    <div class="summary-label">答對題數</div>
+  </div>`;
+  if (wrong > 0) {
+    html += `<div class="wrong-list"><h3>✗ 錯誤單字 (${wrong})</h3>`;
+    spWrong.forEach(w => {
+      html += `<div class="wrong-item"><span>${w[0]}</span><span>${w[1]}</span></div>`;
+    });
+    html += `</div>`;
+  }
+  html += `<div class="card-nav" style="margin-top:14px">
+    <button class="nav-btn primary" onclick="startSpelling()">重新開始</button>
+    <button class="nav-btn" onclick="goHome()">返回首頁</button>
+  </div>`;
+  document.getElementById('spelling-screen').querySelector('.page-content').innerHTML = html;
+}
+</script>
+</body>
+</html>
